@@ -2,10 +2,16 @@
 @let limit = productStore.filter().limit;
 @let total = productStore.total();
 
-<table aria-description="A table of products" mat-table [dataSource]="dataSource()">
+<table
+  aria-description="A table of products"
+  mat-table
+  matSort
+  [dataSource]="dataSource()"
+  (matSortChange)="sortData($event)"
+>
   @for (column of tableColumns; track column.name) {
     <ng-container [matColumnDef]="column.name">
-      <th *matHeaderCellDef mat-header-cell>{{ column.label }}</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ column.label }}</th>
       <td *matCellDef="let element" mat-cell>
         @switch (column.name) {
           @case ('imageUrl') {
@@ -23,7 +29,9 @@
             <app-badge [label]="element.category"></app-badge>
           }
           @case ('price') {
-            <span class="font-medium">{{ element.price | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+            <span class="inline-block rounded-full bg-green-200 px-3 py-1 text-sm font-medium text-green-700">
+              {{ element.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </span>
           }
           @case ('createdAt') {
             {{ element.createdAt | date: 'medium' }}

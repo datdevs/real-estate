@@ -1,6 +1,7 @@
 import { CurrencyPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, MatSortHeader, Sort } from '@angular/material/sort';
 import {
   MatCell,
   MatCellDef,
@@ -40,6 +41,8 @@ import { EmptyRecordComponent } from '../empty-record/empty-record.component';
     MatPaginator,
     MatNoDataRow,
     EmptyRecordComponent,
+    MatSortHeader,
+    MatSort,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',
@@ -94,5 +97,9 @@ export class ProductTableComponent {
    */
   pageEvent(event: PageEvent) {
     this.productStore.updateFilter({ limit: event.pageSize, page: event.pageIndex });
+  }
+
+  sortData(event: Sort) {
+    this.productStore.updateFilter({ sortBy: event.active, sortOrder: event.direction });
   }
 }

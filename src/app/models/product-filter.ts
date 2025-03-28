@@ -1,3 +1,5 @@
+import { SortDirection } from '@angular/material/sort';
+
 export type ProductFilter = Partial<{
   page: number;
   limit: number;
@@ -7,4 +9,5 @@ export type ProductFilter = Partial<{
   price: number;
   location: string;
   sortBy: string;
+  sortOrder: SortDirection;
 }>;
