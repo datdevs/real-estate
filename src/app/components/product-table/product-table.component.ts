@@ -18,6 +18,7 @@ import {
 } from '@angular/material/table';
 import { RealEstate } from '../../models';
 import { ProductStore } from '../../store';
+import { AddProductButtonComponent } from '../add-product-button/add-product-button.component';
 import { BadgeComponent } from '../badge/badge.component';
 import { EmptyRecordComponent } from '../empty-record/empty-record.component';
 
@@ -43,6 +44,7 @@ import { EmptyRecordComponent } from '../empty-record/empty-record.component';
     EmptyRecordComponent,
     MatSortHeader,
     MatSort,
+    AddProductButtonComponent,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',
@@ -50,9 +52,7 @@ import { EmptyRecordComponent } from '../empty-record/empty-record.component';
 })
 export class ProductTableComponent {
   readonly productStore = inject(ProductStore);
-
   readonly dataSource: Signal<MatTableDataSource<RealEstate>>;
-
   readonly tableColumns = [
     {
       name: 'imageUrl',
@@ -99,6 +99,10 @@ export class ProductTableComponent {
     this.productStore.updateFilter({ limit: event.pageSize, page: event.pageIndex });
   }
 
+  /**
+   * Sort event handler for sorting
+   * @param event
+   */
   sortData(event: Sort) {
     this.productStore.updateFilter({ sortBy: event.active, sortOrder: event.direction });
   }

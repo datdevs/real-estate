@@ -2,10 +2,18 @@
 @let limit = productStore.filter().limit;
 @let total = productStore.total();
 
+<div class="mb-5 flex justify-between gap-5">
+  <div></div>
+
+  <app-add-product-button></app-add-product-button>
+</div>
+
 <table
   aria-description="A table of products"
   mat-table
   matSort
+  matSortActive="createdAt"
+  matSortDirection="desc"
   [dataSource]="dataSource()"
   (matSortChange)="sortData($event)"
 >

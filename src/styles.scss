@@ -3,6 +3,13 @@
 @use './styles/components/badge' as *;
 @use './styles/components/toast' as *;
 
+*,
+::before,
+::after {
+  border-style: unset;
+  border-width: unset;
+}
+
 html {
   --mat-sys-level1: 0 5px 10px rgb(0 0 0 / 12%);
 }
@@ -28,4 +35,8 @@ tr.mat-mdc-header-row {
 .mdc-data-table__cell.mat-mdc-cell {
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  margin-top: -1px;
 }

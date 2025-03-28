@@ -1,0 +1,59 @@
+<form class="flex flex-col gap-3" [formGroup]="form">
+  <div [class]="formRowClass">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput required [maxlength]="50" />
+      <mat-error>Name is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Location</mat-label>
+      <input formControlName="location" matInput required />
+      <mat-error>Location is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required>
+        @for (type of typeOptions; track type) {
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>Product type is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category" required>
+        @for (category of categoryOptions; track category) {
+          <mat-option [value]="category">{{ category }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>Product category is required.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea formControlName="description" matInput rows="4"></textarea>
+  </mat-form-field>
+
+  <div [class]="formRowClass">
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input formControlName="price" matInput required type="number" />
+      <mat-error>Product price is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Quantity</mat-label>
+      <input formControlName="quantity" matInput required type="number" />
+      <mat-error>Product quantity is required.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Image URL</mat-label>
+    <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
+  </mat-form-field>
+</form>
