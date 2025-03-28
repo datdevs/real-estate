@@ -38,6 +38,12 @@
 
   <tr *matHeaderRowDef="tableColumnKeys" mat-header-row></tr>
   <tr *matRowDef="let row; columns: tableColumnKeys" mat-row></tr>
+
+  <tr *matNoDataRow>
+    <td [attr.colspan]="tableColumnKeys.length">
+      <app-empty-record></app-empty-record>
+    </td>
+  </tr>
 </table>
 
 <mat-paginator

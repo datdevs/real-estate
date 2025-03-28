@@ -9,6 +9,7 @@ import {
   MatHeaderCellDef,
   MatHeaderRow,
   MatHeaderRowDef,
+  MatNoDataRow,
   MatRow,
   MatRowDef,
   MatTable,
@@ -17,6 +18,7 @@ import {
 import { RealEstate } from '../../models';
 import { ProductStore } from '../../store';
 import { BadgeComponent } from '../badge/badge.component';
+import { EmptyRecordComponent } from '../empty-record/empty-record.component';
 
 @Component({
   selector: 'app-product-table',
@@ -36,6 +38,8 @@ import { BadgeComponent } from '../badge/badge.component';
     CurrencyPipe,
     DatePipe,
     MatPaginator,
+    MatNoDataRow,
+    EmptyRecordComponent,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',
