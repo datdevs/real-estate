@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "order/order": ["custom-properties", "declarations"],
+    "order/properties-alphabetical-order": true
+  },
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.md",
+    "**/*.html",
+    "**/*.svg",
+    "**/*.yml",
+    "**/*.yaml",
+    "node_modules/**/*"
+  ]
+}
