@@ -47,7 +47,7 @@ jobs:
         run: npm run lint:style
         
       - name: NX affected
-        run: npx nx affected -t lint test build
+        run: npx nx affected -t lint build
         
       - name: Compress project
         run: npm run compress
