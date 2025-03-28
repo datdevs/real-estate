@@ -4,15 +4,22 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 import { RealEstateService } from '../core/services';
-import { RealEstate } from '../models';
+import { ProductFilter, RealEstate } from '../models';
 
 type ProductStore = {
   realEstates: RealEstate[];
+  total: number;
+  filter: ProductFilter;
   isLoading: boolean;
 };
 
 const initialState: ProductStore = {
   realEstates: [],
+  total: 0,
+  filter: {
+    page: 0,
+    limit: 10,
+  },
   isLoading: true,
 };
 
@@ -56,13 +63,18 @@ export const ProductStore = signalStore(
   //   }),
   // })),
   withMethods((store, realEstateService = inject(RealEstateService)) => {
+    const updateFilter = (filter: ProductFilter) => {
+      patchState(store, (state) => ({ ...state, filter: { ...state.filter, ...filter } }));
+      loadProduct({});
+    };
+
     const loadProduct = rxMethod<Partial<{ cache: boolean }>>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         switchMap(({ cache }) => {
-          return realEstateService.getRealEstate(cache).pipe(
+          return realEstateService.getRealEstate(store.filter(), cache).pipe(
             tapResponse({
-              next: (realEstates) => patchState(store, { realEstates, isLoading: false }),
+              next: ({ results: realEstates, total }) => patchState(store, { realEstates, total, isLoading: false }),
               error: () => {
                 patchState(store, { isLoading: false });
               },
@@ -72,6 +84,6 @@ export const ProductStore = signalStore(
       ),
     );
 
-    return { loadProduct };
+    return { loadProduct, updateFilter };
   }),
 );

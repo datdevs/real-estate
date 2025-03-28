@@ -1,4 +1,6 @@
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { PaginatedResponse, ProductFilter, RealEstate } from '../../models';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -10,7 +12,7 @@ export class RealEstateService {
   /**
    * Get real estate
    */
-  getRealEstate(cache = true) {
-    return this.http.get('/real-estate', { cache });
+  getRealEstate(params?: ProductFilter, cache = true): Observable<PaginatedResponse<RealEstate>> {
+    return this.http.get('/real-estate', { cache, params });
   }
 }

@@ -18,10 +18,20 @@ const response: RealEstate[] = faker.helpers.multiple(
     };
   },
   {
-    count: 100,
+    count: 200,
   },
 );
 
-export const getData: HttpHandler = http.get('/real-estate', () => {
-  return HttpResponse.json(response);
+export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
+  const url = new URL(request.url);
+  const limit = url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit') as string, 10) : 10;
+  const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page') as string, 10) : 0;
+
+  const start = page * limit;
+  const end = start + limit;
+
+  return HttpResponse.json({
+    results: response.slice(start, end),
+    total: response.length,
+  });
 });

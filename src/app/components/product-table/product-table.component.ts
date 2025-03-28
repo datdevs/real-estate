@@ -1,5 +1,6 @@
 import { CurrencyPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {
   MatCell,
   MatCellDef,
@@ -34,6 +35,7 @@ import { BadgeComponent } from '../badge/badge.component';
     BadgeComponent,
     CurrencyPipe,
     DatePipe,
+    MatPaginator,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',
@@ -80,5 +82,13 @@ export class ProductTableComponent {
     this.dataSource = computed(() => {
       return new MatTableDataSource<RealEstate>(this.productStore.realEstates());
     });
+  }
+
+  /**
+   * Page event handler for pagination
+   * @param event
+   */
+  pageEvent(event: PageEvent) {
+    this.productStore.updateFilter({ limit: event.pageSize, page: event.pageIndex });
   }
 }
