@@ -43,7 +43,10 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - uses: nrwl/nx-set-shas@v4
         
-      - name: Build project
+      - name: Stylelint
+        run: npm run lint:style
+        
+      - name: NX affected
         run: npx nx affected -t lint test build
         
       - name: Compress project

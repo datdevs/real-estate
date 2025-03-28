@@ -6,7 +6,8 @@
     "start": "nx serve",
     "build": "nx build",
     "lint:code": "nx lint",
-    "lint:style": "stylelint src/**/*.{css,scss}"
+    "lint:style": "stylelint src/**/*.{css,scss}",
+    "compress": "gzipper c ./dist"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +51,7 @@
     "angular-eslint": "^19.2.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
+    "gzipper": "^8.2.1",
     "nx": "20.6.4",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
