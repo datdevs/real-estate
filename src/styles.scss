@@ -1,0 +1,31 @@
+@use './styles/vendor/tailwind' as *;
+@use './styles/vendor/angular-material' as *;
+@use './styles/components/badge' as *;
+@use './styles/components/toast' as *;
+
+html {
+  --mat-sys-level1: 0 5px 10px rgb(0 0 0 / 12%);
+}
+
+tr.mat-mdc-header-row {
+  background: var(--mat-sys-surface);
+
+  .mat-mdc-header-cell {
+    border-bottom: 0;
+
+    &:first-child {
+      border-bottom-left-radius: 10px;
+      border-top-left-radius: 10px;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+  }
+}
+
+.mdc-data-table__cell.mat-mdc-cell {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}

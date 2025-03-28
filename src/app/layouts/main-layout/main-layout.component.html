@@ -1,0 +1,15 @@
+<mat-toolbar>
+  <div class="flex items-center">
+    <h2 class="font-bold">{{ title }}</h2>
+
+    @if (routeTitle$ | async; as routeTitle) {
+      <span class="mx-2 text-sm">|</span>
+
+      <span>{{ routeTitle }}</span>
+    }
+  </div>
+</mat-toolbar>
+
+<main class="p-6">
+  <ng-content></ng-content>
+</main>

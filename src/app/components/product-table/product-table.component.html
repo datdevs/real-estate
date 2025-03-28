@@ -1,0 +1,37 @@
+<table aria-description="A table of products" mat-table [dataSource]="dataSource()">
+  @for (column of tableColumns; track column.name) {
+    <ng-container [matColumnDef]="column.name">
+      <th *matHeaderCellDef mat-header-cell>{{ column.label }}</th>
+      <td *matCellDef="let element" mat-cell>
+        @switch (column.name) {
+          @case ('imageUrl') {
+            @if (element?.imageUrl) {
+              <img class="rounded-md" [alt]="element.name" [height]="60" [ngSrc]="element.imageUrl" [width]="60" />
+            }
+          }
+          @case ('name') {
+            <span class="font-medium">{{ element.name }}</span>
+          }
+          @case ('type') {
+            <app-badge [label]="element.type"></app-badge>
+          }
+          @case ('category') {
+            <app-badge [label]="element.category"></app-badge>
+          }
+          @case ('price') {
+            <span class="font-medium">{{ element.price | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+          }
+          @case ('createdAt') {
+            {{ element.createdAt | date: 'medium' }}
+          }
+          @default {
+            {{ element[column.name] }}
+          }
+        }
+      </td>
+    </ng-container>
+  }
+
+  <tr *matHeaderRowDef="tableColumnKeys" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: tableColumnKeys" mat-row></tr>
+</table>

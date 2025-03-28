@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+$font-family: "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
+
+html {
+  color-scheme: light dark;
+
+  @include mat.theme(
+    (
+      color: mat.$violet-palette,
+      typography: $font-family,
+      density: -3,
+    )
+  );
+}
+
+:root {
+  @include mat.table-overrides(
+    (
+      background-color: none,
+      row-item-outline-width: 0,
+    )
+  );
+}
