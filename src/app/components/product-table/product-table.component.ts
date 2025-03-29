@@ -51,7 +51,7 @@ import { EmptyRecordComponent } from '../empty-record/empty-record.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductTableComponent {
-  readonly productStore = inject(ProductStore);
+  readonly store = inject(ProductStore);
   readonly dataSource: Signal<MatTableDataSource<RealEstate>>;
   readonly tableColumns = [
     {
@@ -75,10 +75,6 @@ export class ProductTableComponent {
       label: 'Price',
     },
     {
-      name: 'quantity',
-      label: 'Quantity',
-    },
-    {
       name: 'createdAt',
       label: 'Created At',
     },
@@ -87,7 +83,8 @@ export class ProductTableComponent {
 
   constructor() {
     this.dataSource = computed(() => {
-      return new MatTableDataSource<RealEstate>(this.productStore.realEstates());
+      const { results } = this.store.realEstates();
+      return new MatTableDataSource<RealEstate>(results);
     });
   }
 
@@ -96,7 +93,7 @@ export class ProductTableComponent {
    * @param event
    */
   pageEvent(event: PageEvent) {
-    this.productStore.updateFilter({ limit: event.pageSize, page: event.pageIndex });
+    this.store.updateFilter({ limit: event.pageSize, page: event.pageIndex });
   }
 
   /**
@@ -104,6 +101,6 @@ export class ProductTableComponent {
    * @param event
    */
   sortData(event: Sort) {
-    this.productStore.updateFilter({ sortBy: event.active, sortOrder: event.direction });
+    this.store.updateFilter({ sortBy: event.active, sortOrder: event.direction });
   }
 }

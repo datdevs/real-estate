@@ -1,3 +1,5 @@
+@let inProgress = store.createRealEstateStatus().inProgress;
+
 <h3 mat-dialog-title>New Product</h3>
 
 <mat-dialog-content>
@@ -6,4 +8,13 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions></mat-dialog-actions>
+<mat-dialog-actions>
+  <button class="w-36" mat-flat-button [disabled]="inProgress" (click)="saveProduct()">
+    @if (inProgress) {
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    } @else {
+      Save
+    }
+  </button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

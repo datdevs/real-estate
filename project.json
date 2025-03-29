@@ -24,8 +24,7 @@
           }
         ],
         "styles": ["./src/styles.scss"],
-        "scripts": [],
-        "baseHref": "/real-estate/"
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -41,7 +40,8 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "baseHref": "/real-estate/"
         },
         "development": {
           "optimization": false,
@@ -85,6 +85,7 @@
       "options": {
         "buildTarget": "real-estate:build",
         "staticFilePath": "dist/real-estate/browser",
+        "port": 5001,
         "spa": true
       }
     }

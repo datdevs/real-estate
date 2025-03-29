@@ -24,6 +24,13 @@ html {
   @include mat.button-overrides(
     (
       filled-container-height: 40px,
+      filled-horizontal-padding: 20px,
+      text-container-height: 40px,
+      text-horizontal-padding: 20px,
+      protected-container-height: 40px,
+      protected-horizontal-padding: 20px,
+      outlined-container-height: 40px,
+      outlined-horizontal-padding: 20px,
     )
   );
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaginatedResponse, ProductFilter, RealEstate } from '../../models';
+import { PaginatedResponse, ProductFilter, RealEstate, RealEstateRequest } from '../../models';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -12,7 +12,15 @@ export class RealEstateService {
   /**
    * Get real estate
    */
-  getRealEstate(params?: ProductFilter, cache = true): Observable<PaginatedResponse<RealEstate>> {
-    return this.http.get('/real-estate', { cache, params });
+  getRealEstate(params?: ProductFilter, clearCache = false): Observable<PaginatedResponse<RealEstate>> {
+    return this.http.get('/real-estate', { cache: true, params, clearCache });
+  }
+
+  /**
+   * Get real estate by id
+   * @param data
+   */
+  createRealEstate(data: RealEstateRequest): Observable<void> {
+    return this.http.post('/real-estate', data);
   }
 }

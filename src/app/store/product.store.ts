@@ -1,82 +1,75 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { Notify } from 'notiflix';
 import { pipe, switchMap, tap } from 'rxjs';
+import { OPERATION_STATE } from '../core/constant';
 import { RealEstateService } from '../core/services';
-import { ProductFilter, RealEstate } from '../models';
+import { ProductFilter, RealEstate, RealEstateRequest } from '../models';
+import { OperationStatus } from '../models/types';
 
 type ProductStore = {
-  realEstates: RealEstate[];
-  total: number;
+  realEstates: {
+    results: RealEstate[];
+    total: number;
+    isLoading: boolean;
+  };
   filter: ProductFilter;
-  isLoading: boolean;
+  createRealEstateStatus: {
+    status: OperationStatus;
+    inProgress: boolean;
+  };
 };
 
 const initialState: ProductStore = {
-  realEstates: [],
-  total: 0,
+  realEstates: {
+    results: [],
+    total: 0,
+    isLoading: true,
+  },
   filter: {
     page: 0,
     limit: 10,
+    sortBy: 'createdAt',
+    sortOrder: 'desc',
   },
-  isLoading: true,
+  createRealEstateStatus: {
+    status: OPERATION_STATE.Idle,
+    inProgress: false,
+  },
 };
 
 export const ProductStore = signalStore(
   { protectedState: false },
   withState(initialState),
-  // withComputed(({ changelog, filterVersion }, sanitizer = inject(DomSanitizer)) => ({
-  //   changelogSafe: computed<ChangelogHistory<SafeHtml> | null>(() => {
-  //     const currentChangelog = changelog();
-  //     const version = filterVersion();
-  //
-  //     return currentChangelog
-  //       ? {
-  //           ...currentChangelog,
-  //           results: currentChangelog?.results
-  //             ?.filter((c) => !version || c.framework.version === version)
-  //             ?.map((c) => ({
-  //               ...c,
-  //               framework: {
-  //                 ...c.framework,
-  //                 html_content: c.framework.html_content
-  //                   ? sanitizer.bypassSecurityTrustHtml(
-  //                       '<style>' + c.framework.style_content + '</style>' + c.framework.html_content,
-  //                     )
-  //                   : null,
-  //               },
-  //             })),
-  //         }
-  //       : null;
-  //   }),
-  //
-  //   versions: computed<OptionItem[]>(() => {
-  //     return [
-  //       { id: 0, name: 'All', value: '' },
-  //       ...(changelog()?.results?.map((c) => ({
-  //         id: c.framework.version,
-  //         name: c.framework.version,
-  //         value: c.framework.version,
-  //       })) || []),
-  //     ];
-  //   }),
-  // })),
   withMethods((store, realEstateService = inject(RealEstateService)) => {
     const updateFilter = (filter: ProductFilter) => {
       patchState(store, (state) => ({ ...state, filter: { ...state.filter, ...filter } }));
       loadProduct({});
     };
 
-    const loadProduct = rxMethod<Partial<{ cache: boolean }>>(
+    const resetCreateProductStatus = () => {
+      patchState(store, (state) => ({
+        ...state,
+        createRealEstateStatus: { status: OPERATION_STATE.Idle, inProgress: false },
+      }));
+    };
+
+    const loadProduct = rxMethod<Partial<{ clearCache: boolean }>>(
       pipe(
-        tap(() => patchState(store, { isLoading: true })),
-        switchMap(({ cache }) => {
-          return realEstateService.getRealEstate(store.filter(), cache).pipe(
+        tap(() => patchState(store, (state) => ({ ...state, realEstates: { ...state.realEstates, isLoading: true } }))),
+        switchMap(({ clearCache }) => {
+          return realEstateService.getRealEstate(store.filter(), clearCache).pipe(
             tapResponse({
-              next: ({ results: realEstates, total }) => patchState(store, { realEstates, total, isLoading: false }),
+              next: ({ results: realEstates, total }) =>
+                patchState(store, (state) => ({
+                  ...state,
+                  realEstates: { ...state.realEstates, results: realEstates, total, isLoading: false },
+                })),
               error: () => {
-                patchState(store, { isLoading: false });
+                patchState(store, (state) => ({ ...state, realEstates: { ...state.realEstates, isLoading: false } }));
               },
             }),
           );
@@ -84,6 +77,38 @@ export const ProductStore = signalStore(
       ),
     );
 
-    return { loadProduct, updateFilter };
+    const createProduct = rxMethod<{ data: RealEstateRequest }>(
+      pipe(
+        tap(() =>
+          patchState(store, (state) => ({
+            ...state,
+            createRealEstateStatus: { ...state.createRealEstateStatus, inProgress: true },
+          })),
+        ),
+        switchMap(({ data }) => {
+          return realEstateService.createRealEstate(data).pipe(
+            tapResponse({
+              next: () => {
+                patchState(store, (state) => ({
+                  ...state,
+                  createRealEstateStatus: { status: OPERATION_STATE.Success, inProgress: false },
+                }));
+                Notify.success('Real estate was created successfully');
+                loadProduct({ clearCache: true });
+              },
+              error: (err: HttpErrorResponse) => {
+                patchState(store, (state) => ({
+                  ...state,
+                  createRealEstateStatus: { status: OPERATION_STATE.Failure, inProgress: false },
+                }));
+                Notify.failure(err.error.message || err.message);
+              },
+            }),
+          );
+        }),
+      ),
+    );
+
+    return { loadProduct, updateFilter, createProduct, resetCreateProductStatus };
   }),
 );

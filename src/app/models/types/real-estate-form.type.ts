@@ -8,5 +8,4 @@ export type RealEstateFormType = {
   location: FormControl<string>;
   price: FormControl<number>;
   imageUrl: FormControl<string>;
-  quantity: FormControl<number>;
 };

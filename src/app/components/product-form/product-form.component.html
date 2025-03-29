@@ -1,3 +1,5 @@
+@let form = formService.form;
+
 <form class="flex flex-col gap-3" [formGroup]="form">
   <div [class]="formRowClass">
     <mat-form-field>
@@ -9,6 +11,7 @@
     <mat-form-field>
       <mat-label>Location</mat-label>
       <input formControlName="location" matInput required />
+      <mat-icon aria-hidden="false" aria-label="location" fontIcon="place" matIconPrefix></mat-icon>
       <mat-error>Location is required.</mat-error>
     </mat-form-field>
 
@@ -38,22 +41,18 @@
     <textarea formControlName="description" matInput rows="4"></textarea>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Image URL</mat-label>
+    <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
+    <mat-icon aria-hidden="false" aria-label="image" fontIcon="image" matIconPrefix></mat-icon>
+  </mat-form-field>
+
   <div [class]="formRowClass">
     <mat-form-field>
       <mat-label>Price</mat-label>
       <input formControlName="price" matInput required type="number" />
+      <mat-icon aria-hidden="false" aria-label="dollar symbol" fontIcon="attach_money" matIconPrefix></mat-icon>
       <mat-error>Product price is required.</mat-error>
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Quantity</mat-label>
-      <input formControlName="quantity" matInput required type="number" />
-      <mat-error>Product quantity is required.</mat-error>
-    </mat-form-field>
   </div>
-
-  <mat-form-field>
-    <mat-label>Image URL</mat-label>
-    <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
-  </mat-form-field>
 </form>

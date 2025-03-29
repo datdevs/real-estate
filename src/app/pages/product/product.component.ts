@@ -11,9 +11,9 @@ import { ProductStore } from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductComponent {
-  private readonly productStore = inject(ProductStore);
+  private readonly store = inject(ProductStore);
 
   constructor() {
-    this.productStore.loadProduct({});
+    this.store.loadProduct({});
   }
 }

@@ -1,9 +1,9 @@
 import { setupWorker } from 'msw/browser';
-import { getData } from './real-estate';
+import { getData, postData } from './real-estate';
 
 const basePath = document.baseURI || '/';
 
-const worker = setupWorker(...[getData]);
+const worker = setupWorker(...[getData, postData]);
 
 export function enableMocking() {
   return worker.start({

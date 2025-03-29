@@ -1,22 +1,12 @@
-import {
-  HttpClient,
-  HttpContext,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { isEmpty } from '../../utils';
-import { CACHING_ENABLED, CACHING_TTL } from '../constant';
+import { CACHING_CLEAR, CACHING_ENABLED, CACHING_TTL } from '../constant';
 
 type HttpClientOptions = {
   headers?: HttpHeaders | Record<string, string | string[]>;
-  params?:
-    | HttpParams
-    | Record<
-        string,
-        string | number | boolean | readonly (string | number | boolean)[]
-      >;
+  params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
   context?: HttpContext;
   observe?: 'body' | 'response' | 'events';
   responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
@@ -24,6 +14,7 @@ type HttpClientOptions = {
   withCredentials?: boolean;
   cache?: boolean;
   cacheTTL?: number;
+  clearCache?: boolean;
 };
 
 type ResponseTypeJson = {
@@ -54,11 +45,7 @@ export class HttpService {
    * @param body
    * @param options
    */
-  post(
-    url: string,
-    body: unknown | null,
-    options?: HttpClientOptions,
-  ): Observable<any> {
+  post(url: string, body: unknown | null, options?: HttpClientOptions): Observable<any> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.post<any>(url, body, httpOptions as ResponseTypeJson);
@@ -70,11 +57,7 @@ export class HttpService {
    * @param body
    * @param options
    */
-  put<T>(
-    url: string,
-    body: unknown | null,
-    options?: HttpClientOptions,
-  ): Observable<unknown> {
+  put<T>(url: string, body: unknown | null, options?: HttpClientOptions): Observable<unknown> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.put<T>(url, body, httpOptions as ResponseTypeJson);
@@ -85,10 +68,7 @@ export class HttpService {
    * @param url
    * @param options
    */
-  delete<T>(
-    url: string,
-    options?: HttpClientOptions & { body?: unknown },
-  ): Observable<unknown> {
+  delete<T>(url: string, options?: HttpClientOptions & { body?: unknown }): Observable<unknown> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.delete<T>(url, httpOptions as ResponseTypeJson);
@@ -100,11 +80,7 @@ export class HttpService {
    * @param body
    * @param options
    */
-  patch<T>(
-    url: string,
-    body: unknown | null,
-    options?: HttpClientOptions,
-  ): Observable<unknown> {
+  patch<T>(url: string, body: unknown | null, options?: HttpClientOptions): Observable<unknown> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.patch<T>(url, body, httpOptions as ResponseTypeJson);
@@ -131,6 +107,10 @@ export class HttpService {
       }
     }
 
+    if (options?.clearCache) {
+      context.set(CACHING_CLEAR, true);
+    }
+
     return {
       ...options,
       ...defaultOptions,
@@ -144,9 +124,7 @@ export class HttpService {
    * @param headers
    * @private
    */
-  private _checkHeaders(
-    headers?: HttpHeaders | Record<string, string | string[]>,
-  ): HttpHeaders {
+  private _checkHeaders(headers?: HttpHeaders | Record<string, string | string[]>): HttpHeaders {
     if (!headers || isEmpty(headers)) return this.headers;
 
     let newHeaders = this.headers;
@@ -156,13 +134,9 @@ export class HttpService {
     };
 
     if (headers instanceof HttpHeaders) {
-      headers
-        .keys()
-        .forEach((key) => processHeader(key, headers.get(key) ?? ''));
+      headers.keys().forEach((key) => processHeader(key, headers.get(key) ?? ''));
     } else {
-      Object.entries(headers).forEach(([key, value]) =>
-        processHeader(key, value),
-      );
+      Object.entries(headers).forEach(([key, value]) => processHeader(key, value));
     }
 
     return newHeaders;

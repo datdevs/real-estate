@@ -1,7 +1,7 @@
 import { HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isEqual } from '../../utils';
-import { CACHING_TTL } from '../constant';
+import { CACHING_CLEAR, CACHING_TTL } from '../constant';
 
 export type RequestCacheEntry = {
   url: string;
@@ -26,10 +26,16 @@ export class RequestCacheService implements RequestCache {
     const urlWithBody = new HttpParams({ fromObject: req.body }).toString();
     const cached = this.cache.get(url + '@' + urlWithBody);
     const cacheTtl = req.context.get(CACHING_TTL);
+    const isClear = req.context.get(CACHING_CLEAR);
 
     if (!cached) return undefined;
 
     if (!isEqual(req.body, cached.body)) return undefined;
+
+    if (isClear) {
+      this.cache.delete(url + '@' + urlWithBody);
+      return undefined;
+    }
 
     const isExpired = cached.lastRead < Date.now() - cacheTtl;
 
