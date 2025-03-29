@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { ProductStore } from '../../store';
+import { ConfirmationDialogProps } from '../confirmation-dialog/confirmation-dialog.component';
 import { ProductDialogProps } from '../product-dialog/product-dialog.component';
 
 @Component({
@@ -18,7 +19,11 @@ export class TableRowActionsComponent {
 
   private readonly dialog = inject(MatDialog);
   private readonly injector = inject(Injector);
+  private readonly store = inject(ProductStore);
 
+  /**
+   * Open the product dialog to edit the product.
+   */
   onClickEdit() {
     import('../product-dialog/product-dialog.component').then((c) => {
       const dialogInjector = Injector.create({
@@ -34,16 +39,24 @@ export class TableRowActionsComponent {
     });
   }
 
+  /**
+   * Open the confirmation dialog to delete the product.
+   */
   onClickDelete() {
     import('../confirmation-dialog/confirmation-dialog.component').then((c) => {
-      this.dialog.open(c.ConfirmationDialogComponent, {
-        data: {
-          title: 'Delete Product',
-          message: 'Are you sure you want to delete this product?',
-          confirmButtonText: 'Delete',
-          cancelButtonText: 'Cancel',
-        },
-      });
+      this.dialog
+        .open(c.ConfirmationDialogComponent, {
+          data: {
+            title: 'Delete Product',
+            message: 'Are you sure you want to delete this product?',
+          } as ConfirmationDialogProps,
+        })
+        .afterClosed()
+        .subscribe((result) => {
+          if (result === 'YES') {
+            this.store.deleteProduct({ id: this.productId() });
+          }
+        });
     });
   }
 }

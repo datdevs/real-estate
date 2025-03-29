@@ -141,6 +141,24 @@ export const ProductStore = signalStore(
       ),
     );
 
-    return { loadProduct, updateFilter, createProduct, updateProduct, resetCreateProductStatus };
+    const deleteProduct = rxMethod<{ id: string }>(
+      pipe(
+        switchMap(({ id }) => {
+          return realEstateService.deleteRealEstate(id).pipe(
+            tapResponse({
+              next: () => {
+                Notify.success('Real estate was deleted successfully');
+                loadProduct({ clearCache: true });
+              },
+              error: (err: HttpErrorResponse) => {
+                Notify.failure(err.error.message || err.message);
+              },
+            }),
+          );
+        }),
+      ),
+    );
+
+    return { loadProduct, updateFilter, createProduct, updateProduct, deleteProduct, resetCreateProductStatus };
   }),
 );

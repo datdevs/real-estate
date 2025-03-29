@@ -8,7 +8,8 @@ export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
   const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page') as string, 10) : 0;
   const sortBy = url.searchParams.get('sortBy');
   const sortOrder = url.searchParams.get('sortOrder');
-  let newResponse = structuredClone(realEstates);
+  const isAvailableProduct = structuredClone(realEstates.filter((item) => !item.isDeleted));
+  let newResponse = structuredClone(isAvailableProduct);
 
   if (sortBy && sortOrder) {
     newResponse = sortData(newResponse, sortBy, sortOrder);
@@ -19,7 +20,7 @@ export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
 
   return HttpResponse.json({
     results: newResponse.slice(start, end),
-    total: realEstates.length,
+    total: isAvailableProduct.length,
   });
 });
 

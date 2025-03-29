@@ -9,6 +9,7 @@ export interface RealEstate {
   imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
+  isDeleted: boolean;
 }
 
-export type RealEstateRequest = Omit<RealEstate, 'id' | 'createdAt' | 'updatedAt'>;
+export type RealEstateRequest = Omit<RealEstate, 'id' | 'createdAt' | 'updatedAt' | 'isDeleted'>;

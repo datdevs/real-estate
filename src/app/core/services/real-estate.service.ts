@@ -32,4 +32,12 @@ export class RealEstateService {
   updateRealEstate(id: string, data: RealEstateRequest): Observable<void> {
     return this.http.put(`/real-estate/${id}`, data);
   }
+
+  /**
+   * Delete real estate by id
+   * @param id
+   */
+  deleteRealEstate(id: string): Observable<void> {
+    return this.http.delete(`/real-estate/${id}`);
+  }
 }

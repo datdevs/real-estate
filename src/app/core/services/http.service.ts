@@ -68,7 +68,7 @@ export class HttpService {
    * @param url
    * @param options
    */
-  delete<T>(url: string, options?: HttpClientOptions & { body?: unknown }): Observable<unknown> {
+  delete<T>(url: string, options?: HttpClientOptions & { body?: unknown }): Observable<any> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.delete<T>(url, httpOptions as ResponseTypeJson);

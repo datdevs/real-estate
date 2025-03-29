@@ -1,1 +1,15 @@
-<p>confirmation-dialog works!</p>
+@let title = dialogData.title;
+@let message = dialogData.message;
+
+<h3 mat-dialog-title>{{ title }}</h3>
+
+<mat-dialog-content>
+  <div>
+    <p>{{ message }}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button color="danger" mat-dialog-close="YES" mat-flat-button>Yes</button>
+  <button mat-button mat-dialog-close>No</button>
+</mat-dialog-actions>

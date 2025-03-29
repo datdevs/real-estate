@@ -39,3 +39,12 @@ html {
     )
   );
 }
+
+.mat-danger {
+  @include mat.button-overrides(
+    (
+      filled-container-color: oklch(0.885 0.062 18.334),
+      filled-label-text-color: oklch(0.577 0.245 27.325),
+    )
+  );
+}
