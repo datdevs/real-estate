@@ -3,7 +3,7 @@
 @let total = store.realEstates().total;
 
 <div class="mb-5 flex justify-between gap-5">
-  <div></div>
+  <app-product-filter></app-product-filter>
 
   <app-add-product-button></app-add-product-button>
 </div>
@@ -48,7 +48,9 @@
             {{ element.updatedAt | date: 'medium' }}
           }
           @case ('actions') {
-            <app-table-row-actions [productId]="element.id"></app-table-row-actions>
+            @if (!element.isDeleted) {
+              <app-table-row-actions [productId]="element.id"></app-table-row-actions>
+            }
           }
           @default {
             {{ element[column.name] }}

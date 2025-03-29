@@ -13,7 +13,13 @@ export class RealEstateService {
    * Get real estate
    */
   getRealEstate(params?: ProductFilter, clearCache = false): Observable<PaginatedResponse<RealEstate>> {
-    return this.http.get('/real-estate', { cache: true, params, clearCache });
+    const formattedParams = {
+      ...params,
+      ...(params?.category && { category: params?.category.toString() }),
+      ...(params?.type && { type: params?.type.toString() }),
+    };
+
+    return this.http.get('/real-estate', { cache: true, params: formattedParams, clearCache });
   }
 
   /**

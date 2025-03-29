@@ -8,8 +8,43 @@ export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
   const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page') as string, 10) : 0;
   const sortBy = url.searchParams.get('sortBy');
   const sortOrder = url.searchParams.get('sortOrder');
+  const search = url.searchParams.get('search') || null;
+  const category = url.searchParams.get('category') || null;
+  const type = url.searchParams.get('type') || null;
+  const status = url.searchParams.get('status') || null;
   const isAvailableProduct = structuredClone(realEstates.filter((item) => !item.isDeleted));
-  let newResponse = structuredClone(isAvailableProduct);
+  let filteredProduct = structuredClone(isAvailableProduct);
+
+  // Filter by status
+  if (status === 'isDeleted') {
+    filteredProduct = realEstates.filter((item) => item.isDeleted);
+  }
+
+  // Filter by search
+  if (search) {
+    filteredProduct = filteredProduct.filter((item) => {
+      const searchLowerCase = search.toLowerCase();
+      return (
+        item.name.toLowerCase().includes(searchLowerCase) ||
+        item.description.toLowerCase().includes(searchLowerCase) ||
+        item.location.toLowerCase().includes(searchLowerCase)
+      );
+    });
+  }
+
+  // Filter by category
+  if (category) {
+    const categories = category.split(',');
+    filteredProduct = filteredProduct.filter((item) => categories.includes(item.category));
+  }
+
+  // Filter by type
+  if (type) {
+    const types = type.split(',');
+    filteredProduct = filteredProduct.filter((item) => types.includes(item.type));
+  }
+
+  let newResponse = structuredClone(filteredProduct);
 
   if (sortBy && sortOrder) {
     newResponse = sortData(newResponse, sortBy, sortOrder);
@@ -20,7 +55,7 @@ export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
 
   return HttpResponse.json({
     results: newResponse.slice(start, end),
-    total: isAvailableProduct.length,
+    total: filteredProduct.length,
   });
 });
 

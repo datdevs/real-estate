@@ -1,0 +1,34 @@
+<form class="flex flex-wrap gap-4" [formGroup]="filterForm">
+  <mat-form-field>
+    <mat-label>Visibility</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="visible">Visible</mat-option>
+      <mat-option value="isDeleted">Deleted</mat-option>
+    </mat-select>
+    <mat-icon matIconPrefix>filter_alt</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input formControlName="search" matInput type="text" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="type" multiple>
+      @for (type of typeOptions; track type) {
+        <mat-option [value]="type">{{ type }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category" multiple>
+      @for (category of categoryOptions; track category) {
+        <mat-option [value]="category">{{ category }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>
