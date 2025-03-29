@@ -57,7 +57,7 @@ export class HttpService {
    * @param body
    * @param options
    */
-  put<T>(url: string, body: unknown | null, options?: HttpClientOptions): Observable<unknown> {
+  put<T>(url: string, body: unknown | null, options?: HttpClientOptions): Observable<any> {
     const httpOptions = this._prepareOptions(options);
 
     return this.http.put<T>(url, body, httpOptions as ResponseTypeJson);

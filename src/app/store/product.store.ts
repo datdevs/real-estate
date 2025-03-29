@@ -17,7 +17,7 @@ type ProductStore = {
     isLoading: boolean;
   };
   filter: ProductFilter;
-  createRealEstateStatus: {
+  createUpdateRealEstateStatus: {
     status: OperationStatus;
     inProgress: boolean;
   };
@@ -32,10 +32,10 @@ const initialState: ProductStore = {
   filter: {
     page: 0,
     limit: 10,
-    sortBy: 'createdAt',
+    sortBy: 'updatedAt',
     sortOrder: 'desc',
   },
-  createRealEstateStatus: {
+  createUpdateRealEstateStatus: {
     status: OPERATION_STATE.Idle,
     inProgress: false,
   },
@@ -53,7 +53,7 @@ export const ProductStore = signalStore(
     const resetCreateProductStatus = () => {
       patchState(store, (state) => ({
         ...state,
-        createRealEstateStatus: { status: OPERATION_STATE.Idle, inProgress: false },
+        createUpdateRealEstateStatus: { status: OPERATION_STATE.Idle, inProgress: false },
       }));
     };
 
@@ -82,7 +82,7 @@ export const ProductStore = signalStore(
         tap(() =>
           patchState(store, (state) => ({
             ...state,
-            createRealEstateStatus: { ...state.createRealEstateStatus, inProgress: true },
+            createUpdateRealEstateStatus: { ...state.createUpdateRealEstateStatus, inProgress: true },
           })),
         ),
         switchMap(({ data }) => {
@@ -91,7 +91,7 @@ export const ProductStore = signalStore(
               next: () => {
                 patchState(store, (state) => ({
                   ...state,
-                  createRealEstateStatus: { status: OPERATION_STATE.Success, inProgress: false },
+                  createUpdateRealEstateStatus: { status: OPERATION_STATE.Success, inProgress: false },
                 }));
                 Notify.success('Real estate was created successfully');
                 loadProduct({ clearCache: true });
@@ -99,7 +99,7 @@ export const ProductStore = signalStore(
               error: (err: HttpErrorResponse) => {
                 patchState(store, (state) => ({
                   ...state,
-                  createRealEstateStatus: { status: OPERATION_STATE.Failure, inProgress: false },
+                  createUpdateRealEstateStatus: { status: OPERATION_STATE.Failure, inProgress: false },
                 }));
                 Notify.failure(err.error.message || err.message);
               },
@@ -109,6 +109,38 @@ export const ProductStore = signalStore(
       ),
     );
 
-    return { loadProduct, updateFilter, createProduct, resetCreateProductStatus };
+    const updateProduct = rxMethod<{ id: string; data: RealEstateRequest }>(
+      pipe(
+        tap(() =>
+          patchState(store, (state) => ({
+            ...state,
+            createUpdateRealEstateStatus: { ...state.createUpdateRealEstateStatus, inProgress: true },
+          })),
+        ),
+        switchMap(({ id, data }) => {
+          return realEstateService.updateRealEstate(id, data).pipe(
+            tapResponse({
+              next: () => {
+                patchState(store, (state) => ({
+                  ...state,
+                  createUpdateRealEstateStatus: { status: OPERATION_STATE.Success, inProgress: false },
+                }));
+                Notify.success('Real estate was updated successfully');
+                loadProduct({ clearCache: true });
+              },
+              error: (err: HttpErrorResponse) => {
+                patchState(store, (state) => ({
+                  ...state,
+                  createUpdateRealEstateStatus: { status: OPERATION_STATE.Failure, inProgress: false },
+                }));
+                Notify.failure(err.error.message || err.message);
+              },
+            }),
+          );
+        }),
+      ),
+    );
+
+    return { loadProduct, updateFilter, createProduct, updateProduct, resetCreateProductStatus };
   }),
 );

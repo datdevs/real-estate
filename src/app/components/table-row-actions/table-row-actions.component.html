@@ -1,0 +1,15 @@
+<button aria-label="actions menu button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #actionsMenu="matMenu">
+  <button mat-menu-item (click)="onClickEdit()">
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+
+  <button disabled mat-menu-item (click)="onClickDelete()">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>

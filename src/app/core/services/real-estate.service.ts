@@ -17,10 +17,19 @@ export class RealEstateService {
   }
 
   /**
-   * Get real estate by id
+   * Create real estate
    * @param data
    */
   createRealEstate(data: RealEstateRequest): Observable<void> {
     return this.http.post('/real-estate', data);
+  }
+
+  /**
+   * Update real estate by id
+   * @param id
+   * @param data
+   */
+  updateRealEstate(id: string, data: RealEstateRequest): Observable<void> {
+    return this.http.put(`/real-estate/${id}`, data);
   }
 }

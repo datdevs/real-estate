@@ -33,4 +33,9 @@ html {
       outlined-horizontal-padding: 20px,
     )
   );
+  @include mat.menu-overrides(
+    (
+      item-icon-size: 1em,
+    )
+  );
 }

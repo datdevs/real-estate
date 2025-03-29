@@ -15,6 +15,7 @@ export const postData = http.post('/real-estate', async ({ request }) => {
     ...body,
     id: faker.string.uuid(),
     createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   return HttpResponse.json(null, { status: 204 });

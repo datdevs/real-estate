@@ -21,6 +21,7 @@ import { ProductStore } from '../../store';
 import { AddProductButtonComponent } from '../add-product-button/add-product-button.component';
 import { BadgeComponent } from '../badge/badge.component';
 import { EmptyRecordComponent } from '../empty-record/empty-record.component';
+import { TableRowActionsComponent } from '../table-row-actions/table-row-actions.component';
 
 @Component({
   selector: 'app-product-table',
@@ -45,6 +46,7 @@ import { EmptyRecordComponent } from '../empty-record/empty-record.component';
     MatSortHeader,
     MatSort,
     AddProductButtonComponent,
+    TableRowActionsComponent,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',
@@ -77,6 +79,18 @@ export class ProductTableComponent {
     {
       name: 'createdAt',
       label: 'Created At',
+    },
+    {
+      name: 'updatedAt',
+      label: 'Updated At',
+    },
+    {
+      name: 'status',
+      label: 'Status',
+    },
+    {
+      name: 'actions',
+      label: '',
     },
   ];
   readonly tableColumnKeys = this.tableColumns.map((column) => column.name);

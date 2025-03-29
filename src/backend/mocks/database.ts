@@ -14,6 +14,7 @@ const realEstates: RealEstate[] = faker.helpers.multiple(
       price: faker.number.float({ min: 50000, max: 5000000, fractionDigits: 0 }),
       imageUrl: faker.image.url({ height: 200, width: 200 }),
       createdAt: faker.date.recent({ days: 365 }),
+      updatedAt: faker.date.recent({ days: 365 }),
     };
   },
   {

@@ -8,6 +8,10 @@ export class FormService {
 
   private readonly fb = inject(FormBuilder);
 
+  constructor() {
+    this.initForm();
+  }
+
   /**
    * Initialize form
    * @private

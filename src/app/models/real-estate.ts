@@ -8,6 +8,7 @@ export interface RealEstate {
   price: number;
   imageUrl: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-export type RealEstateRequest = Omit<RealEstate, 'id' | 'createdAt'>;
+export type RealEstateRequest = Omit<RealEstate, 'id' | 'createdAt' | 'updatedAt'>;

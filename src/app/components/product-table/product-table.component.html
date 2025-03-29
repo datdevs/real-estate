@@ -12,7 +12,7 @@
   aria-description="A table of products"
   mat-table
   matSort
-  matSortActive="createdAt"
+  matSortActive="updatedAt"
   matSortDirection="desc"
   [dataSource]="dataSource()"
   (matSortChange)="sortData($event)"
@@ -43,6 +43,12 @@
           }
           @case ('createdAt') {
             {{ element.createdAt | date: 'medium' }}
+          }
+          @case ('updatedAt') {
+            {{ element.updatedAt | date: 'medium' }}
+          }
+          @case ('actions') {
+            <app-table-row-actions [productId]="element.id"></app-table-row-actions>
           }
           @default {
             {{ element[column.name] }}

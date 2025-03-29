@@ -11,7 +11,7 @@
     <mat-form-field>
       <mat-label>Location</mat-label>
       <input formControlName="location" matInput required />
-      <mat-icon aria-hidden="false" aria-label="location" fontIcon="place" matIconPrefix></mat-icon>
+      <mat-icon matIconPrefix>place</mat-icon>
       <mat-error>Location is required.</mat-error>
     </mat-form-field>
 
@@ -44,14 +44,14 @@
   <mat-form-field>
     <mat-label>Image URL</mat-label>
     <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
-    <mat-icon aria-hidden="false" aria-label="image" fontIcon="image" matIconPrefix></mat-icon>
+    <mat-icon matIconPrefix>image</mat-icon>
   </mat-form-field>
 
   <div [class]="formRowClass">
     <mat-form-field>
       <mat-label>Price</mat-label>
       <input formControlName="price" matInput required type="number" />
-      <mat-icon aria-hidden="false" aria-label="dollar symbol" fontIcon="attach_money" matIconPrefix></mat-icon>
+      <mat-icon matIconPrefix>attach_money</mat-icon>
       <mat-error>Product price is required.</mat-error>
     </mat-form-field>
   </div>

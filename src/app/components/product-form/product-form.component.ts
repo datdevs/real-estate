@@ -21,8 +21,4 @@ export class ProductFormComponent {
   readonly categoryOptions = PRODUCT_CATEGORIES;
 
   readonly formService = inject(FormService);
-
-  constructor() {
-    this.formService.initForm();
-  }
 }
