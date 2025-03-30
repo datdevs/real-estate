@@ -23,7 +23,7 @@ export class AddProductButtonComponent {
       });
 
       this.dialog.open(c.ProductDialogComponent, {
-        minWidth: '800px',
+        width: '800px',
         injector: dialogInjector,
       });
     });

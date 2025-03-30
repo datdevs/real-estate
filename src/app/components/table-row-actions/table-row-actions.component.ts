@@ -32,7 +32,7 @@ export class TableRowActionsComponent {
       });
 
       this.dialog.open(c.ProductDialogComponent, {
-        minWidth: '800px',
+        width: '800px',
         data: { id: this.productId() } as ProductDialogProps,
         injector: dialogInjector,
       });

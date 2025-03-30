@@ -18,10 +18,8 @@ import {
 } from '@angular/material/table';
 import { RealEstate } from '../../models';
 import { ProductStore } from '../../store';
-import { AddProductButtonComponent } from '../add-product-button/add-product-button.component';
 import { BadgeComponent } from '../badge/badge.component';
 import { EmptyRecordComponent } from '../empty-record/empty-record.component';
-import { ProductFilterComponent } from '../product-filter/product-filter.component';
 import { TableRowActionsComponent } from '../table-row-actions/table-row-actions.component';
 
 @Component({
@@ -46,9 +44,7 @@ import { TableRowActionsComponent } from '../table-row-actions/table-row-actions
     EmptyRecordComponent,
     MatSortHeader,
     MatSort,
-    AddProductButtonComponent,
     TableRowActionsComponent,
-    ProductFilterComponent,
   ],
   templateUrl: './product-table.component.html',
   styleUrl: './product-table.component.scss',

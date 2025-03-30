@@ -1,5 +1,15 @@
 .mat-column {
   &-imageUrl {
     width: 100px;
+
+    ::ng-deep {
+      > * {
+        width: 60px;
+      }
+    }
   }
+}
+
+table {
+  white-space: nowrap;
 }

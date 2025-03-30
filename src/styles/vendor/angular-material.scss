@@ -38,6 +38,12 @@ html {
       item-icon-size: 1em,
     )
   );
+  @include mat.dialog-overrides(
+    (
+      container-min-width: 100px,
+      container-max-width: auto,
+    )
+  );
 }
 
 .mat-danger {

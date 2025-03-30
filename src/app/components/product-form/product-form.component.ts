@@ -18,7 +18,7 @@ import { FormService } from './services/form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFormComponent {
-  formRowClass = 'grid grid-cols-2 gap-x-5 gap-y-3';
+  formRowClass = 'grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2';
 
   readonly typeOptions = PRODUCT_TYPES;
   readonly categoryOptions = PRODUCT_CATEGORIES;
