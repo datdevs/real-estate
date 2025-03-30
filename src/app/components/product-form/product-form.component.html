@@ -41,11 +41,15 @@
     <textarea formControlName="description" matInput rows="4"></textarea>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Image URL</mat-label>
-    <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
-    <mat-icon matIconPrefix>image</mat-icon>
-  </mat-form-field>
+  <div class="mb-5">
+    <mat-form-field class="mb-4 w-full" subscriptSizing="dynamic">
+      <mat-label>Image URL</mat-label>
+      <input formControlName="imageUrl" matInput placeholder="Ex: https://image.com" />
+      <mat-icon matIconPrefix>image</mat-icon>
+    </mat-form-field>
+
+    <app-file-uploader (selected)="uploadFile($event)"></app-file-uploader>
+  </div>
 
   <div [class]="formRowClass">
     <mat-form-field>

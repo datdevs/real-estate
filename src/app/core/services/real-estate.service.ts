@@ -19,7 +19,7 @@ export class RealEstateService {
       ...(params?.type && { type: params?.type.toString() }),
     };
 
-    return this.http.get('/real-estate', { cache: true, params: formattedParams, clearCache });
+    return this.http.get('/api/real-estate', { cache: true, params: formattedParams, clearCache });
   }
 
   /**
@@ -27,7 +27,7 @@ export class RealEstateService {
    * @param data
    */
   createRealEstate(data: RealEstateRequest): Observable<void> {
-    return this.http.post('/real-estate', data);
+    return this.http.post('/api/real-estate', data);
   }
 
   /**
@@ -36,7 +36,7 @@ export class RealEstateService {
    * @param data
    */
   updateRealEstate(id: string, data: RealEstateRequest): Observable<void> {
-    return this.http.put(`/real-estate/${id}`, data);
+    return this.http.put(`/api/real-estate/${id}`, data);
   }
 
   /**
@@ -44,6 +44,6 @@ export class RealEstateService {
    * @param id
    */
   deleteRealEstate(id: string): Observable<void> {
-    return this.http.delete(`/real-estate/${id}`);
+    return this.http.delete(`/api/real-estate/${id}`);
   }
 }

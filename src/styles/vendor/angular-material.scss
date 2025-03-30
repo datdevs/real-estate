@@ -47,4 +47,18 @@ html {
       filled-label-text-color: oklch(0.577 0.245 27.325),
     )
   );
+  @include mat.icon-button-overrides(
+    (
+      icon-color: oklch(0.577 0.245 27.325),
+      state-layer-color: oklch(0.885 0.062 18.334),
+    )
+  );
+}
+
+.mat-button__sm {
+  @include mat.icon-button-overrides(
+    (
+      state-layer-size: 20px,
+    )
+  );
 }

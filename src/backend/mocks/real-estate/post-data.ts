@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { RealEstateRequest } from '../../../app/models';
 import { realEstates } from '../database';
 
-export const postData = http.post('/real-estate', async ({ request }) => {
+export const postData = http.post('/api/real-estate', async ({ request }) => {
   const body = (await request.json()) as RealEstateRequest;
 
   // Validate the request body

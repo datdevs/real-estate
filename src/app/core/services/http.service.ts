@@ -75,18 +75,6 @@ export class HttpService {
   }
 
   /**
-   * Patch request
-   * @param url
-   * @param body
-   * @param options
-   */
-  patch<T>(url: string, body: unknown | null, options?: HttpClientOptions): Observable<unknown> {
-    const httpOptions = this._prepareOptions(options);
-
-    return this.http.patch<T>(url, body, httpOptions as ResponseTypeJson);
-  }
-
-  /**
    * Prepare options for the request
    * @param options
    * @private

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { realEstates } from '../database';
 
-export const deleteData = http.delete('/real-estate/:id', ({ params }) => {
+export const deleteData = http.delete('/api/real-estate/:id', ({ params }) => {
   const { id } = params;
 
   // Find the index of the real estate item to delete

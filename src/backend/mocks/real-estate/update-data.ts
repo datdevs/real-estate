@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { RealEstateRequest } from '../../../app/models';
 import { realEstates } from '../database';
 
-export const updateData = http.put('/real-estate/:id', async ({ request, params }) => {
+export const updateData = http.put('/api/real-estate/:id', async ({ request, params }) => {
   const { id } = params;
   const body = (await request.json()) as RealEstateRequest;
 

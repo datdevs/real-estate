@@ -1,0 +1,76 @@
+@let selectedFiles = files();
+@let progress = uploaderService.progressMap();
+
+<div class="file-uploader">
+  @if (selectedFiles?.length) {
+    <div class="file-list__wrap mb-4">
+      <div class="file-list__content flex flex-col gap-2">
+        @for (file of selectedFiles; track $index) {
+          <div class="file-list__item">
+            <div class="file-list__item-info">
+              <img class="file__preview" height="30" width="30" [alt]="file.name" [src]="file | filePreview" />
+
+              <div class="file-info">
+                <span class="file-info-title">
+                  {{ file.name }}
+                </span>
+              </div>
+            </div>
+
+            <div class="file-list__item-action">
+              @if (progress.get(file.name)?.success) {
+                <div class="flex items-center gap-2 text-xs text-green-500">
+                  <mat-icon>check_circle</mat-icon>
+                  <span class="font-medium">Upload successful</span>
+                </div>
+              } @else {
+                <div class="flex items-center gap-2 text-yellow-500">
+                  <mat-icon>hourglass_empty</mat-icon>
+                  <span class="font-medium">Uploading {{ progress.get(file.name)?.percent }}%</span>
+                </div>
+              }
+
+              <button
+                class="file__remove-btn mat-button__sm"
+                color="danger"
+                mat-icon-button
+                matTooltip="Delete"
+                matTooltipPosition="above"
+                [disabled]="disabled()"
+                (click)="$event.preventDefault(); onDeleteFile(file)"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+
+            @if (progress.get(file.name)) {
+              <span
+                class="file-list__item__upload-progress"
+                [style]="{ width: progress.get(file.name)?.percent + '%' }"
+              ></span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="file-upload" [class]="{ disabled: disabled() }">
+    <input
+      class="file-upload__input"
+      type="file"
+      [accept]="acceptedTypes()"
+      [disabled]="disabled()"
+      [multiple]="multiple()"
+      (change)="onFileChange($event)"
+    />
+
+    <button class="file-upload__mask" [disabled]="disabled">
+      <mat-icon>file_upload</mat-icon>
+
+      <span class="file-upload__mask__text ml-2 text-sm text-gray-400">
+        {{ placeholderText() }}
+      </span>
+    </button>
+  </div>
+</div>

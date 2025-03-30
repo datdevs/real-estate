@@ -2,7 +2,7 @@ import { http, HttpHandler, HttpResponse } from 'msw';
 import { RealEstate } from '../../../app/models';
 import { realEstates } from '../database';
 
-export const getData: HttpHandler = http.get('/real-estate', ({ request }) => {
+export const getData: HttpHandler = http.get('/api/real-estate', ({ request }) => {
   const url = new URL(request.url);
   const limit = url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit') as string, 10) : 10;
   const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page') as string, 10) : 0;

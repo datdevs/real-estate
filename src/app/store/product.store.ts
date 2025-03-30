@@ -10,7 +10,7 @@ import { RealEstateService } from '../core/services';
 import { ProductFilter, RealEstate, RealEstateRequest } from '../models';
 import { OperationStatus } from '../models/types';
 
-type ProductStore = {
+type ProductStoreState = {
   realEstates: {
     results: RealEstate[];
     total: number;
@@ -23,7 +23,7 @@ type ProductStore = {
   };
 };
 
-const initialState: ProductStore = {
+const initialState: ProductStoreState = {
   realEstates: {
     results: [],
     total: 0,
