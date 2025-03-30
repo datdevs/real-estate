@@ -5,7 +5,13 @@
     "order/order": ["custom-properties", "declarations"],
     "order/properties-alphabetical-order": true,
     "selector-class-pattern": null,
-    "no-empty-source": null
+    "no-empty-source": null,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ]
   },
   "ignoreFiles": [
     "**/*.js",
